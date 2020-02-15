@@ -1,28 +1,45 @@
 import * as vscode from "vscode";
-import { basename, dirname } from "path";
+import { join as pathJoin } from "path";
 
+/**
+ * Snipps interface
+ */
 export interface Snipp {
   name: string;
   tags: string[];
   content: string | null;
-  contentType: string | null;
+  contentType: string;
 }
 
+/**
+ * Group interface
+ */
+export interface Group {
+  name: string;
+  contentType: string | undefined;
+}
 export class SnippModel {
-  private nodes: Map<string, Snipp> = new Map<string, Snipp>();
-
   constructor(
     readonly view: string,
     private context: vscode.ExtensionContext
   ) {}
 
-  public get roots(): Thenable<Snipp[]> {
-    return Promise.resolve(this.context?.globalState?.get("snipps", []));
+  public get roots(): Thenable<Group[]> {
+    const snipps = this.context?.globalState?.get("snipps", []);
+    const types = snipps
+      .map((snipp: Snipp) => snipp.contentType)
+      .filter((value, index, self) => self.indexOf(value) === index)
+      .map(type => ({ name: type, contentType: undefined }));
+    return Promise.resolve(types);
   }
 
-  public getChildren(node: Snipp): Thenable<Snipp[]> {
-    return Promise.resolve([]);
-    // return Promise.resolve(this.context?.globalState?.get("snipps", []));
+  public getChildren(node: Group): Thenable<Snipp[]> {
+    const snipps = this.context?.globalState
+      ?.get("snipps", [])
+      .filter((snipp: Snipp) => {
+        return snipp.contentType === node.name;
+      });
+    return Promise.resolve(snipps);
   }
 
   public getContent(resource: vscode.Uri): Thenable<string> {
@@ -30,9 +47,11 @@ export class SnippModel {
   }
 }
 
+export class GroupModel {}
+
 export class SnippProvider
   implements
-    vscode.TreeDataProvider<Snipp>,
+    vscode.TreeDataProvider<Snipp | Group>,
     vscode.TextDocumentContentProvider {
   private _onDidChangeTreeData: vscode.EventEmitter<
     any
@@ -49,31 +68,57 @@ export class SnippProvider
     this._onDidChangeTreeData.fire();
   }
 
-  public getTreeItem(element: Snipp): vscode.TreeItem {
+  public isSnipp(object: any): object is Group {
+    return "content" in object;
+  }
+
+  public getTreeItem(element: Snipp | Group): vscode.TreeItem {
+    const t = element.name;
+    let icn = pathJoin(
+      __filename,
+      "..",
+      "..",
+      "..",
+      "resources",
+      "icons",
+      `folder-${t}.svg`
+    );
+    const isSnip = this.isSnipp(element);
+    if (isSnip) {
+      const it = element.contentType;
+      icn = pathJoin(
+        __filename,
+        "..",
+        "..",
+        "..",
+        "resources",
+        "icons",
+        `${it}.svg`
+      );
+    }
+
     return {
-      label: element.name
+      label: isSnip ? element.name : element.name.toUpperCase(),
+      iconPath: icn,
+      collapsibleState: !isSnip
+        ? vscode.TreeItemCollapsibleState.Collapsed
+        : undefined
     };
   }
 
-  public getChildren(element?: Snipp): Snipp[] | Thenable<Snipp[]> {
+  public getChildren(
+    element?: Snipp | Group
+  ): Snipp[] | Thenable<Snipp[]> | Group[] | Thenable<Group[]> {
     return element ? this.model.getChildren(element) : this.model.roots;
   }
 
-  // public getParent(element: Snipp): Snipp {
-
-  //   const parent = element.resource.with({
-  //     path: dirname(element.resource.path)
-  //   });
-  //   return parent.path !== "//"
-  //     ? { resource: parent, isDirectory: true }
-  //     : null;
-  // }
-
   public provideTextDocumentContent(
     uri: vscode.Uri,
-    token: vscode.CancellationToken
+    token?: vscode.CancellationToken
   ): vscode.ProviderResult<string> {
-    return this.model.getContent(uri).then(content => content);
+    return this.model.getContent(uri).then(content => {
+      return content;
+    });
   }
 }
 
@@ -89,11 +134,44 @@ export class SnippExplorer {
       treeDataProvider: snippDataProvider
     });
 
-    vscode.commands.registerCommand("allSnipps.refreshEntry", () =>
-      snippDataProvider.refresh()
+    vscode.commands.registerCommand("allSnipps.refreshEntry", () => {
+      snippDataProvider.refresh();
+    });
+
+    vscode.commands.registerCommand("allSnipps.addEntry", () => {
+      vscode.window.showInformationMessage(`Successfully called add entry.`);
+    });
+
+    vscode.commands.registerCommand(
+      "allSnipps.deleteEntry",
+      (snippToDelete: Snipp) => {
+        const existingSnipps = context.globalState.get("snipps", []);
+
+        const updatedSnipps = existingSnipps.filter((snipp: Snipp) => {
+          return JSON.stringify(snipp) !== JSON.stringify(snippToDelete);
+        });
+
+        context.globalState.update("snipps", updatedSnipps);
+
+        vscode.window.showInformationMessage(`Snipp deleted`);
+        snippDataProvider.refresh();
+      }
     );
-    vscode.commands.registerCommand("allSnipps.addEntry", () =>
-      vscode.window.showInformationMessage(`Successfully called add entry.`)
-    );
+
+    vscode.commands.registerCommand("allSnipps.insertEntry", (snipp: Snipp) => {
+      const editor = vscode.window.activeTextEditor;
+      if (editor && snippDataProvider.isSnipp(snipp)) {
+        const position = editor?.selection.active;
+        editor.edit(edit => {
+          edit.insert(position, snipp.content || "");
+        });
+      } else if(editor && !snippDataProvider.isSnipp(snipp)) {
+        vscode.window.showErrorMessage(`Please choose a Snipp instead of a group`);
+      } else if (!editor){
+        vscode.window.showErrorMessage(`Please open a file to insert a Snipp`);
+      } else  {
+        vscode.window.showErrorMessage(`Failed to insert Snipp!`);
+      }
+    });
   }
 }

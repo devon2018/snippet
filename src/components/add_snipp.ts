@@ -60,16 +60,15 @@ export async function AddSnippForm(context: ExtensionContext) {
     state.content = content?.text;
     state.contentType = content?.type;
 
+    const existingSnipps = context.globalState.get("snipps", []);
 
-    
-    const existingSnipps = context.globalState.get('snipps', []);
-    
     const updatedSnipps = [...existingSnipps, state];
 
-    context.globalState.update('snipps', updatedSnipps);
-    
-    window.showInformationMessage('Snipp Saved');
-    console.log(context.globalState.get('snipps'));
+    context.globalState.update("snipps", updatedSnipps);
+
+    window.showInformationMessage("Snipp Saved");
+
+    commands.executeCommand("allSnipps.refreshEntry");
   }
 
   async function getSnippText() {

@@ -10,6 +10,7 @@
     "Other"
   ],
   "activationEvents": [
+    "*",
     "onCommand:extension.createSnipp",
     "onView:allSnipps"
   ],
@@ -31,7 +32,12 @@
       ],
       "view/item/context": [
       	{
-      		"command": "extension.createSnipp"
+          "command": "allSnipps.deleteEntry",
+          "group": "snippit"
+        },
+        {
+          "command": "allSnipps.insertEntry",
+          "group": "snippit"
         }
       ],
       "view/title": [
@@ -39,14 +45,24 @@
 					"command": "allSnipps.refreshEntry",
 					"when": "view == allSnipps",
 					"group": "navigation"
-				},
-				{
-					"command": "allSnipps.addEntry",
-					"when": "view == allSnipps"
+        },
+        {
+					"command": "allSnipps.searchSnipps",
+					"when": "view == allSnipps",
+          "group": "navigation"
 				}
 			]
     },
     "commands": [
+      {
+        "command": "allSnipps.searchSnipps",
+        "group": "navigation",
+        "title": "Search Snipps",
+        "icon": {
+          "light": "resources/icons/search.svg",
+          "dark": "resources/icons/search.svg"
+        }
+      },
       {
         "command": "extension.createSnipp",
         "title": "Create Snip",
@@ -67,6 +83,10 @@
 			{
 				"command": "allSnipps.deleteEntry",
 				"title": "Delete"
+      },
+      {
+				"command": "allSnipps.insertEntry",
+        "title": "Insert"
 			}
     ],
     "viewsContainers": {
