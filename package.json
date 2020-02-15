@@ -28,6 +28,11 @@
           "command": "extension.createSnipp",
           "when": "editorHasSelection",
           "group": "snippit"
+        },
+        {
+          "command": "extension.insertSnipp",
+          "group": "snippit",
+          "title": "Insert Snipp"
         }
       ],
       "view/item/context": [
@@ -43,24 +48,41 @@
       "view/title": [
 				{
 					"command": "allSnipps.refreshEntry",
-					"when": "view == allSnipps",
 					"group": "navigation"
         },
         {
-					"command": "allSnipps.searchSnipps",
-					"when": "view == allSnipps",
+					"command": "extension.searchSnipps",
           "group": "navigation"
+        },
+        {
+					"command": "extension.importSnipps",
+          "group": "navigation",
+          "when": "false"
 				}
 			]
     },
     "commands": [
       {
-        "command": "allSnipps.searchSnipps",
-        "group": "navigation",
+        "command": "extension.searchSnipps",
+        "group": "snippit",
         "title": "Search Snipps",
         "icon": {
           "light": "resources/icons/search.svg",
           "dark": "resources/icons/search.svg"
+        }
+      },
+      {
+        "command": "extension.insertSnipp",
+        "group": "snippit",
+        "title": "Insert Snipp"
+      },
+      {
+        "command": "extension.importSnipps",
+        "group": "snippit",
+        "title": "Import snipps",
+        "icon": {
+          "light": "resources/icons/import-snipps.svg",
+          "dark": "resources/icons/import-snipps.svg"
         }
       },
       {
@@ -70,7 +92,11 @@
       },
       {
 				"command": "allSnipps.refreshEntry",
-				"title": "Refresh"
+        "title": "Refresh",
+        "icon": {
+          "light": "resources/icons/refresh.svg",
+          "dark": "resources/icons/refresh.svg"
+        }
 			},
 			{
 				"command": "allSnipps.addEntry",
@@ -94,7 +120,7 @@
         {
           "icon": "resources/logo.svg",
           "id": "snippView",
-          "title": "Snipp"
+          "title": "Snipps"
         }
       ]
     },
@@ -102,7 +128,7 @@
       "snippView": [
         {
           "id": "allSnipps",
-          "name": "All Snipps"
+          "name": "All"
         }
       ]
     }

@@ -7,7 +7,7 @@ import {
   CompletionItem,
   ExtensionContext
 } from "vscode";
-import { Snipp } from "./snippProvider";
+import Snipp from "../interfaces/snipp";
 
 export class CompletionProvider {
   constructor(context: ExtensionContext) {

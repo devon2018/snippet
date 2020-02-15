@@ -1,22 +1,8 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import {
-  ExtensionContext,
-  commands,
-  languages,
-  TextDocument,
-  Position,
-  CancellationToken,
-  CompletionContext,
-  CompletionItem,
-  CompletionItemKind,
-  SnippetString,
-  MarkdownString
-} from "vscode";
-import { LoginForm } from "./components/login_form";
+import { ExtensionContext, commands } from "vscode";
 import { AddSnippForm } from "./components/add_snipp";
-import { SnippExplorer, Snipp } from "./providers/snippProvider";
+import { SnippExplorer } from "./providers/snippProvider";
 import { CompletionProvider } from "./providers/CompletionProvider";
+import { SearchSnippForm } from "./components/search_snipps";
 
 export function activate(context: ExtensionContext) {
   new SnippExplorer(context);
@@ -29,6 +15,17 @@ export function activate(context: ExtensionContext) {
     })
   );
 
+  context.subscriptions.push(
+    commands.registerCommand("extension.searchSnipps", async () => {
+      SearchSnippForm(context);
+    })
+  );
+
+  context.subscriptions.push(
+    commands.registerCommand("extension.insertSnipp", async () => {
+      SearchSnippForm(context);
+    })
+  );
 }
 
 export function deactivate() {}

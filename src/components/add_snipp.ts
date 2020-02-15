@@ -1,32 +1,17 @@
-import {
-  ExtensionContext,
-  commands,
-  window,
-  Range,
-  Uri,
-  TextDocument,
-  workspace,
-  Position
-} from "vscode";
+import { ExtensionContext, commands, window } from "vscode";
 
 import { MultiStepInput } from "../functions/multistep";
+import Snipp from "../interfaces/snipp";
 
 export async function AddSnippForm(context: ExtensionContext) {
   const title = "Create Snippit";
 
-  interface State {
-    name: string;
-    tags: string[];
-    content: string | null;
-    contentType: string | null;
-  }
-
-  async function startAddSnipp(state: Partial<State>) {
+  async function startAddSnipp(state: Partial<Snipp>) {
     await MultiStepInput.run(input => addSnippName(input, state));
-    return state as State;
+    return state as Snipp;
   }
 
-  async function addSnippName(input: MultiStepInput, state: Partial<State>) {
+  async function addSnippName(input: MultiStepInput, state: Partial<Snipp>) {
     state.name = await input.showInputBox({
       title,
       step: 1,
@@ -39,7 +24,7 @@ export async function AddSnippForm(context: ExtensionContext) {
     return (input: MultiStepInput) => addSnippTags(input, state);
   }
 
-  async function addSnippTags(input: MultiStepInput, state: Partial<State>) {
+  async function addSnippTags(input: MultiStepInput, state: Partial<Snipp>) {
     const tagString = await input.showInputBox({
       title,
       step: 1,
@@ -98,5 +83,5 @@ export async function AddSnippForm(context: ExtensionContext) {
     return new Promise<boolean>((resolve, reject) => {});
   }
 
-  await startAddSnipp({});
+  await startAddSnipp({ created: new Date() });
 }

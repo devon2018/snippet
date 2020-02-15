@@ -3,7 +3,8 @@ import {
   Disposable,
   QuickInputButton,
   QuickInput,
-  QuickInputButtons
+  QuickInputButtons,
+  QuickPickItem
 } from "vscode";
 
 class InputFlowAction {
@@ -24,6 +25,17 @@ interface InputBoxParameters {
   validate: (value: string) => Promise<string | undefined>;
   buttons?: QuickInputButton[];
   shouldResume: () => Thenable<boolean>;
+}
+
+interface QuickPickParameters<T extends QuickPickItem> {
+	title: string;
+	step: number;
+	totalSteps: number;
+	items: T[];
+	activeItem?: T;
+	placeholder: string;
+	buttons?: QuickInputButton[];
+	shouldResume: () => Thenable<boolean>;
 }
 
 export class MultiStepInput {
@@ -60,6 +72,67 @@ export class MultiStepInput {
     }
     if (this.current) {
       this.current.dispose();
+    }
+  }
+
+  async showQuickPick<
+    T extends QuickPickItem,
+    P extends QuickPickParameters<T>
+  >({
+    title,
+    step,
+    totalSteps,
+    items,
+    activeItem,
+    placeholder,
+    buttons,
+    shouldResume
+  }: P) {
+    const disposables: Disposable[] = [];
+    try {
+      return await new Promise<
+        T | (P extends { buttons: (infer I)[] } ? I : never)
+      >((resolve, reject) => {
+        const input = window.createQuickPick<T>();
+        input.title = title;
+        input.step = step;
+        input.totalSteps = totalSteps;
+        input.placeholder = placeholder;
+        input.items = items;
+        if (activeItem) {
+          input.activeItems = [activeItem];
+        }
+        input.buttons = [
+          ...(this.steps.length > 1 ? [QuickInputButtons.Back] : []),
+          ...(buttons || [])
+        ];
+        disposables.push(
+          input.onDidTriggerButton(item => {
+            if (item === QuickInputButtons.Back) {
+              reject(InputFlowAction.back);
+            } else {
+              resolve(<any>item);
+            }
+          }),
+          input.onDidChangeSelection(items => resolve(items[0])),
+          input.onDidHide(() => {
+            (async () => {
+              reject(
+                shouldResume && (await shouldResume())
+                  ? InputFlowAction.resume
+                  : InputFlowAction.cancel
+              );
+            })().catch(reject);
+          })
+        );
+        if (this.current) {
+          this.current.dispose();
+        }
+        this.current = input;
+        this.current.show();
+      });
+    } finally {
+      disposables.forEach(d => d.dispose());
     }
   }
 

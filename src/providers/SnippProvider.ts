@@ -1,15 +1,6 @@
 import * as vscode from "vscode";
 import { join as pathJoin } from "path";
-
-/**
- * Snipps interface
- */
-export interface Snipp {
-  name: string;
-  tags: string[];
-  content: string | null;
-  contentType: string;
-}
+import Snipp from "../interfaces/snipp";
 
 /**
  * Group interface
