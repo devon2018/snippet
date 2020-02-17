@@ -11,10 +11,9 @@ Import and Export snippets (Coming soon)
 Share snipps (Coming soon)
 
 
-\!\[feature X\]\(resources/demo/create-snip.gif\)
+![Create Snipp demo](resources/demo/create-snip.gif)
 
-
-\!\[feature X\]\(resources/demo/insert-snip.gif\)
+![Insert Snipp demo](resources/demo/insert-snip.gif)
 
 
 > Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
