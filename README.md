@@ -1,14 +1,21 @@
 # snipp README
 
-This is the README for your extension "snipp". After writing up a brief description, we recommend including the following sections.
+Vscode extension that allows users to create and insert user defined code snippets.
+This plugin is still in beta, please create an issue or feature request if you notice anything I've missed. 
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Create your own reusable code snippets;
+Ability to search and group code snippets
+Import and Export snippets (Coming soon)
+Share snipps (Coming soon)
 
-For example if there is an image subfolder under your extension project workspace:
 
-\!\[feature X\]\(images/feature-x.png\)
+\!\[feature X\]\(resources/demo/create-snip.gif\)
+
+
+\!\[feature X\]\(resources/demo/insert-snip.gif\)
+
 
 > Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 

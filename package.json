@@ -3,6 +3,7 @@
   "displayName": "Snipp",
   "description": "Extension for creating code snippets and uploading to the snipp.app website",
   "version": "0.0.1",
+  "publisher": "devonray",
   "engines": {
     "vscode": "^1.42.0"
   },
