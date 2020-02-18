@@ -1,18 +1,48 @@
 {
-  "name": "snipp",
-  "displayName": "Snipp",
-  "description": "Extension for creating code snippets and uploading to the snipp.app website",
+  "name": "snippet",
+  "displayName": "Snippet",
+  "description": "Extension for creating code and managing user defined code snippets",
+  "license": "SEE LICENSE IN LICENSE.md",
   "version": "0.0.1",
   "publisher": "devonray",
+  "icon": "resources/logo.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devon2018/snippet"
+  },
+  "extensionKind": [
+    "workspace",
+    "ui"
+  ],
+  "galleryBanner": {
+    "color": "#1289B9",
+    "theme": "dark"
+  },
   "engines": {
     "vscode": "^1.42.0"
   },
   "categories": [
+    "Snippets",
+    "Extension Packs",
     "Other"
   ],
+  "keywords": [
+    "Snippets",
+    "Snippet",
+    "Snipp",
+    "Sharing"
+  ],
   "activationEvents": [
-    "*",
     "onCommand:extension.createSnipp",
+    "onCommand:extension.searchSnipps",
+    "onCommand:extension.insertSnipp",
+    "onCommand:extension.importSnipps",
+    "onCommand:extension.refreshEntry",
+    "onCommand:extension.importSnipps",
+    "onCommand:extension.addEntry",
+    "onCommand:extension.editEntry",
+    "onCommand:extension.deleteEntry",
+    "onCommand:extension.insertEntry",
     "onView:allSnipps"
   ],
   "main": "./out/extension.js",
@@ -37,7 +67,7 @@
         }
       ],
       "view/item/context": [
-      	{
+        {
           "command": "allSnipps.deleteEntry",
           "group": "snippit"
         },
@@ -47,20 +77,20 @@
         }
       ],
       "view/title": [
-				{
-					"command": "allSnipps.refreshEntry",
-					"group": "navigation"
-        },
         {
-					"command": "extension.searchSnipps",
+          "command": "allSnipps.refreshEntry",
           "group": "navigation"
         },
         {
-					"command": "extension.importSnipps",
+          "command": "extension.searchSnipps",
+          "group": "navigation"
+        },
+        {
+          "command": "extension.importSnipps",
           "group": "navigation",
           "when": "false"
-				}
-			]
+        }
+      ]
     },
     "commands": [
       {
@@ -92,29 +122,29 @@
         "group": "snippit"
       },
       {
-				"command": "allSnipps.refreshEntry",
+        "command": "allSnipps.refreshEntry",
         "title": "Refresh",
         "icon": {
           "light": "resources/icons/refresh.svg",
           "dark": "resources/icons/refresh.svg"
         }
-			},
-			{
-				"command": "allSnipps.addEntry",
-				"title": "Add"
-			},
-			{
-				"command": "allSnipps.editEntry",
-				"title": "Edit"
-			},
-			{
-				"command": "allSnipps.deleteEntry",
-				"title": "Delete"
       },
       {
-				"command": "allSnipps.insertEntry",
+        "command": "allSnipps.addEntry",
+        "title": "Add"
+      },
+      {
+        "command": "allSnipps.editEntry",
+        "title": "Edit"
+      },
+      {
+        "command": "allSnipps.deleteEntry",
+        "title": "Delete"
+      },
+      {
+        "command": "allSnipps.insertEntry",
         "title": "Insert"
-			}
+      }
     ],
     "viewsContainers": {
       "activitybar": [
@@ -134,6 +164,7 @@
       ]
     }
   },
+  "homepage": "https://snippet.devonray.net",
   "scripts": {
     "vscode:prepublish": "yarn run compile",
     "compile": "tsc -p ./",
