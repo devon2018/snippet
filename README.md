@@ -17,7 +17,7 @@ This plugin is still in beta, please create an issue or feature request if you n
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+
 
 ## Release Notes
 ### 1.0.0
