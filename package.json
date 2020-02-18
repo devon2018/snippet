@@ -119,9 +119,9 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "icon": "resources/logo.svg",
           "id": "snippView",
-          "title": "Snipps"
+          "title": "Snipps",
+          "icon": "resources/icons/logo-light.svg"
         }
       ]
     },
