@@ -20,8 +20,12 @@ This plugin is still in beta, please create an issue or feature request if you n
 
 
 ## Release Notes
-### 1.0.0
+### 0.0.2
+* Fixed issues with naming consistency
+* Added ability to click a Snipp to insert at current cursor location
+* Added Missing Icon for scss Snipps
 
+### 0.0.1
 Initial release of Snippet
 
 -----------------------------------------------------------------------------------------------------------

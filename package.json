@@ -3,7 +3,7 @@
   "displayName": "Snippet",
   "description": "Extension for creating code and managing user defined code snippets",
   "license": "SEE LICENSE IN LICENSE.md",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "devonray",
   "icon": "resources/logo.png",
   "repository": {
@@ -58,22 +58,22 @@
         {
           "command": "extension.createSnipp",
           "when": "editorHasSelection",
-          "group": "snippit"
+          "group": "snippet"
         },
         {
           "command": "extension.insertSnipp",
-          "group": "snippit",
-          "title": "Insert Snipp"
+          "group": "snippet",
+          "title": "Insert snipp"
         }
       ],
       "view/item/context": [
         {
           "command": "allSnipps.deleteEntry",
-          "group": "snippit"
+          "group": "snippet"
         },
         {
           "command": "allSnipps.insertEntry",
-          "group": "snippit"
+          "group": "snippet"
         }
       ],
       "view/title": [
@@ -95,7 +95,7 @@
     "commands": [
       {
         "command": "extension.searchSnipps",
-        "group": "snippit",
+        "group": "snippet",
         "title": "Search Snipps",
         "icon": {
           "light": "resources/icons/search.svg",
@@ -104,12 +104,12 @@
       },
       {
         "command": "extension.insertSnipp",
-        "group": "snippit",
-        "title": "Insert Snipp"
+        "group": "snippet",
+        "title": "Insert snipp"
       },
       {
         "command": "extension.importSnipps",
-        "group": "snippit",
+        "group": "snippet",
         "title": "Import snipps",
         "icon": {
           "light": "resources/icons/import-snipps.svg",
@@ -118,8 +118,8 @@
       },
       {
         "command": "extension.createSnipp",
-        "title": "Create Snip",
-        "group": "snippit"
+        "title": "Create snipp",
+        "group": "snippet"
       },
       {
         "command": "allSnipps.refreshEntry",
@@ -162,7 +162,21 @@
           "name": "All"
         }
       ]
-    }
+    },
+    "keybindings": [
+      {
+        "command": "extension.insertSnipp",
+        "key": "shift+i",
+        "mac": "shift+i",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.createSnipp",
+        "key": "shift+c",
+        "mac": "shift+c",
+        "when": "editorHasSelection"
+      }
+    ]
   },
   "homepage": "https://snippet.devonray.net",
   "scripts": {

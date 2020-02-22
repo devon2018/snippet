@@ -88,9 +88,16 @@ export class SnippProvider
       );
     }
 
+    const snippcomm ={
+      command: 'allSnipps.insertEntry',
+      title: '',
+      arguments: [element]
+    };
+
     return {
       label: isSnip ? element.name : element.name.toUpperCase(),
       iconPath: icn,
+      command:  isSnip ? snippcomm : undefined,
       collapsibleState: !isSnip
         ? vscode.TreeItemCollapsibleState.Collapsed
         : undefined
