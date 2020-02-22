@@ -3,7 +3,7 @@
   "displayName": "Snippet",
   "description": "Extension for creating code and managing user defined code snippets",
   "license": "SEE LICENSE IN LICENSE.md",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "devonray",
   "icon": "resources/logo.png",
   "repository": {
@@ -166,14 +166,14 @@
     "keybindings": [
       {
         "command": "extension.insertSnipp",
-        "key": "shift+i",
-        "mac": "shift+i",
+        "key": "shift+cmd+i",
+        "mac": "shift+cmd+i",
         "when": "editorTextFocus"
       },
       {
         "command": "extension.createSnipp",
-        "key": "shift+c",
-        "mac": "shift+c",
+        "key": "shift+cmd+c",
+        "mac": "shift+cmd+c",
         "when": "editorHasSelection"
       }
     ]

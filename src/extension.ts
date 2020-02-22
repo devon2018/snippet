@@ -5,13 +5,13 @@ import { CompletionProvider } from "./providers/CompletionProvider";
 import { SearchSnippForm } from "./components/search_snipps";
 
 export function activate(context: ExtensionContext) {
-  new SnippExplorer(context);
 
+  new SnippExplorer(context);
   new CompletionProvider(context);
 
   context.subscriptions.push(
     commands.registerCommand("extension.createSnipp", async () => {
-      AddSnippForm(context);
+      await AddSnippForm(context);
     })
   );
 

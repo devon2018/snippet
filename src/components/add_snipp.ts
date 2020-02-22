@@ -1,4 +1,14 @@
-import { ExtensionContext, commands, window } from "vscode";
+import {
+  ExtensionContext,
+  commands,
+  window,
+  languages,
+  TextDocument,
+  Position,
+  CancellationToken,
+  CompletionContext,
+  CompletionItem
+} from "vscode";
 
 import { MultiStepInput } from "../functions/multistep";
 import Snipp from "../interfaces/snipp";
@@ -50,6 +60,21 @@ export async function AddSnippForm(context: ExtensionContext) {
     const updatedSnipps = [...existingSnipps, state];
 
     context.globalState.update("snipps", updatedSnipps);
+
+    if (content.type && state.name) {
+      languages.registerCompletionItemProvider(content.type, {
+        provideCompletionItems(
+          document: TextDocument,
+          position: Position,
+          token: CancellationToken,
+          context: CompletionContext
+        ) {
+          const commandCompletion = new CompletionItem(state.name || '');
+          commandCompletion.insertText = state.content || "";
+          return [commandCompletion];
+        }
+      });
+    }
 
     window.showInformationMessage("Snipp Saved");
 
