@@ -47,6 +47,14 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "views": {
+      "snippView": [
+        {
+          "id": "allSnipps",
+          "name": "All"
+        }
+      ]
+    },
     "menus": {
       "commandPalette": [
         {
@@ -69,26 +77,30 @@
       "view/item/context": [
         {
           "command": "allSnipps.deleteEntry",
-          "group": "snippet"
+          "group": "snippet",
+          "when": "view == allSnipps"
         },
         {
           "command": "allSnipps.insertEntry",
-          "group": "snippet"
+          "group": "snippet",
+          "when": "view == allSnipps"
         }
       ],
       "view/title": [
         {
           "command": "allSnipps.refreshEntry",
-          "group": "navigation"
+          "group": "navigation",
+          "when": "view == allSnipps"
         },
         {
           "command": "extension.searchSnipps",
-          "group": "navigation"
+          "group": "navigation",
+          "when": "view == allSnipps"
         },
         {
           "command": "extension.importSnipps",
           "group": "navigation",
-          "when": "false"
+          "when": "view == allSnipps && false"
         }
       ]
     },
@@ -152,14 +164,6 @@
           "id": "snippView",
           "title": "Snipps",
           "icon": "resources/icons/logo-light.svg"
-        }
-      ]
-    },
-    "views": {
-      "snippView": [
-        {
-          "id": "allSnipps",
-          "name": "All"
         }
       ]
     },
