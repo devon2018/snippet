@@ -20,6 +20,11 @@ This plugin is still in beta, please create an issue or feature request if you n
 
 
 ## Release Notes
+
+### 0.0.7
+* Added missing icons for dart snippets
+* Added ability to edit snippets
+
 ### 0.0.2
 * Fixed issues with naming consistency
 * Added ability to click a Snipp to insert at current cursor location

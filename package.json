@@ -3,7 +3,7 @@
   "displayName": "Snippet",
   "description": "Extension for creating code and managing user defined code snippets",
   "license": "SEE LICENSE IN LICENSE.md",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "publisher": "devonray",
   "icon": "resources/logo.png",
   "repository": {
@@ -43,7 +43,8 @@
     "onCommand:extension.editEntry",
     "onCommand:extension.deleteEntry",
     "onCommand:extension.insertEntry",
-    "onView:allSnipps"
+    "onView:allSnipps",
+    "snippet.snippetEdit"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -51,7 +52,7 @@
       "snippView": [
         {
           "id": "allSnipps",
-          "name": "All"
+          "name": "Editor"
         }
       ]
     },
@@ -84,6 +85,11 @@
           "command": "allSnipps.insertEntry",
           "group": "snippet",
           "when": "view == allSnipps"
+        },
+        {
+          "command": "allSnipps.editEntry",
+          "group": "snippet",
+          "when": "view == allSnipps"
         }
       ],
       "view/title": [
@@ -108,7 +114,7 @@
       {
         "command": "extension.searchSnipps",
         "group": "snippet",
-        "title": "Search Snipps",
+        "title": "Search Snippets",
         "icon": {
           "light": "resources/icons/search.svg",
           "dark": "resources/icons/search.svg"
@@ -117,12 +123,12 @@
       {
         "command": "extension.insertSnipp",
         "group": "snippet",
-        "title": "Insert snipp"
+        "title": "Insert snippet"
       },
       {
         "command": "extension.importSnipps",
         "group": "snippet",
-        "title": "Import snipps",
+        "title": "Import Snippets",
         "icon": {
           "light": "resources/icons/import-snipps.svg",
           "dark": "resources/icons/import-snipps.svg"
@@ -130,7 +136,7 @@
       },
       {
         "command": "extension.createSnipp",
-        "title": "Create snipp",
+        "title": "Create Snippet",
         "group": "snippet"
       },
       {
@@ -162,7 +168,7 @@
       "activitybar": [
         {
           "id": "snippView",
-          "title": "Snipps",
+          "title": "Snippets",
           "icon": "resources/icons/logo-light.svg"
         }
       ]
