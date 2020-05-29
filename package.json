@@ -53,6 +53,10 @@
         {
           "id": "allSnipps",
           "name": "Editor"
+        },
+        {
+          "id": "terminalSnipps",
+          "name": "Terminal"
         }
       ]
     },
@@ -107,6 +111,16 @@
           "command": "extension.importSnipps",
           "group": "navigation",
           "when": "view == allSnipps && false"
+        },
+        {
+          "command": "terminalSnipps.addSnipp",
+          "group": "navigation",
+          "when": "view == terminalSnipps"
+        },
+        {
+          "command": "terminalSnipps.searchSnipps",
+          "group": "navigation",
+          "when": "view == terminalSnipps"
         }
       ]
     },
@@ -145,6 +159,22 @@
         "icon": {
           "light": "resources/icons/refresh.svg",
           "dark": "resources/icons/refresh.svg"
+        }
+      },
+      {
+        "command": "terminalSnipps.addSnipp",
+        "title": "Add",
+        "icon": {
+          "light": "resources/icons/add-icon.svg",
+          "dark": "resources/icons/add-icon.svg"
+        }
+      },
+      {
+        "command": "terminalSnipps.searchSnipps",
+        "title": "Search Terminal Snippets",
+        "icon": {
+          "light": "resources/icons/search.svg",
+          "dark": "resources/icons/search.svg"
         }
       },
       {
