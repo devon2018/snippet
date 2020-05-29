@@ -3,6 +3,8 @@ import { AddSnippForm } from "./components/add_snipp";
 import { SnippExplorer } from "./providers/snippProvider";
 import { CompletionProvider } from "./providers/CompletionProvider";
 import { SearchSnippForm } from "./components/search_snipps";
+import { SearchTerminalSnippsForm } from "./components/search_terminal_snipps";
+
 import { TerminalSnippExplorer } from "./providers/TerminalSnippProvider";
 import { AddTerminalSnippetForm } from "./components/add_terminal_snipp";
 
@@ -27,6 +29,12 @@ export function activate(context: ExtensionContext) {
   context.subscriptions.push(
     commands.registerCommand("extension.searchSnipps", async () => {
       SearchSnippForm(context);
+    })
+  );
+
+  context.subscriptions.push(
+    commands.registerCommand("terminalSnipps.searchSnipps", async () => {
+      SearchTerminalSnippsForm(context);
     })
   );
 

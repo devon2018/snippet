@@ -94,6 +94,21 @@
           "command": "allSnipps.editEntry",
           "group": "snippet",
           "when": "view == allSnipps"
+        },
+        {
+          "command": "terminalSnipps.deleteEntry",
+          "group": "snippet",
+          "when": "view == terminalSnipps"
+        },
+        {
+          "command": "terminalSnipps.insertEntry",
+          "group": "snippet",
+          "when": "view == terminalSnipps"
+        },
+        {
+          "command": "terminalSnipps.editEntry",
+          "group": "snippet",
+          "when": "view == terminalSnipps"
         }
       ],
       "view/title": [
@@ -191,6 +206,18 @@
       },
       {
         "command": "allSnipps.insertEntry",
+        "title": "Insert"
+      },
+      {
+        "command": "terminalSnipps.editEntry",
+        "title": "Edit"
+      },
+      {
+        "command": "terminalSnipps.deleteEntry",
+        "title": "Delete"
+      },
+      {
+        "command": "terminalSnipps.insertEntry",
         "title": "Insert"
       }
     ],

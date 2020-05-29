@@ -1,6 +1,6 @@
 import Snipp from "../interfaces/snipp";
 
-export default function editSnippWebviewContent(snipp: Snipp) {
+export default function editTerminalSnippWebviewContent(snipp: Snipp) {
   return `<!DOCTYPE html />
   <html lang="en">
     <head>
@@ -78,14 +78,16 @@ export default function editSnippWebviewContent(snipp: Snipp) {
     <body>
   
       <form id="edit-snippet-form">
+      
       <label>Name</label>
+      <input type="text" id="" value="${
+        snipp.name
+      }" required placeholder="Enter Snippet Name" name="name">
 
+        <label>Command</label>
         <input type="text" id="" value="${
-          snipp.name
-        }" required placeholder="Enter Snippet Name" name="name">
-        <label>Content</label>
-  
-        <textarea name="content" rows="40" required>${snipp.content}</textarea>
+          snipp.content
+        }" required placeholder="Enter Snippet Content" name="content">
   
         <!-- ${snipp.tags.map(
           (tag, index) => `

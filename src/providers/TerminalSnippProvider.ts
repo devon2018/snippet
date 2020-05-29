@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import Snipp from "../interfaces/snipp";
+import editTerminalSnippWebviewContent from "../components/edit_terminal_snipp";
 
 export class TerminalSnippModel {
   constructor(
@@ -77,10 +78,35 @@ export class TerminalSnippExplorer {
       treeDataProvider: snippDataProvider,
     });
 
+    /**
+     * Removes a terminal snippet from storage
+     */
+    vscode.commands.registerCommand(
+      "terminalSnipps.deleteEntry",
+      (snippToDelete: Snipp) => {
+        const existingSnipps = context.globalState.get("terminal_snipps", []);
+
+        const updatedSnipps = existingSnipps.filter((snipp: Snipp) => {
+          return JSON.stringify(snipp) !== JSON.stringify(snippToDelete);
+        });
+
+        context.globalState.update("terminal_snipps", updatedSnipps);
+
+        vscode.window.showInformationMessage(`Terminal Snippet Removed`);
+        snippDataProvider.refresh();
+      }
+    );
+
+    /**
+     * Refreshes the list of terminal snippets.
+     */
     vscode.commands.registerCommand("terminalSnipps.refreshEntry", () => {
       snippDataProvider.refresh();
     });
 
+    /**
+     * Inserts the snippet into an existing integrated terminal
+     */
     vscode.commands.registerCommand(
       "terminalSnipps.insertEntry",
       (snipp: Snipp) => {
@@ -92,6 +118,66 @@ export class TerminalSnippExplorer {
             `Please open a terminal instance to insert this snippet.`
           );
         }
+      }
+    );
+
+    vscode.commands.registerCommand(
+      "terminalSnipps.editEntry",
+      (snipp: Snipp) => {
+        let existingSnipps = context.globalState.get("terminal_snipps", []);
+        const snipIndex = existingSnipps.findIndex(
+          (snipp1: Snipp) => JSON.stringify(snipp1) === JSON.stringify(snipp)
+        );
+
+        const panel = vscode.window.createWebviewPanel(
+          "snippetEditor", // Identifies the type of the webview. Used internally
+          `Edit: ${snipp.name}`, // Title of the panel displayed to the user
+          vscode.ViewColumn.One, // Editor column to show the new webview panel in.
+          {
+            enableScripts: true,
+          } // Webview options. More on these later.
+        );
+
+        panel.webview.html = editTerminalSnippWebviewContent(snipp);
+
+        panel.webview.onDidReceiveMessage(
+          (message) => {
+            switch (message.command) {
+              case "save":
+                const { name, content } = message.snippetData;
+
+                if (name) {
+                  snipp.name = name;
+                }
+
+                if (content) {
+                  snipp.content = content;
+                }
+
+                const updatedSnipps = existingSnipps.map(
+                  (exsnip: Snipp, index) => {
+                    if (index === snipIndex) {
+                      return snipp;
+                    } else {
+                      return exsnip;
+                    }
+                  }
+                );
+                context.globalState.update("terminal_snipps", updatedSnipps);
+
+                panel.dispose();
+                snippDataProvider.refresh();
+
+                vscode.window.showInformationMessage(
+                  `Terminal Snippet Updated!`
+                );
+
+                return;
+            }
+          },
+          undefined,
+          context.subscriptions
+        );
       }
     );
   }
