@@ -16,6 +16,14 @@ This plugin is still in beta, please create an issue or feature request if you n
 [Edit Snippet demo](https://youtu.be/Ud0GlHd4Enw)
 [Terminal Snippet demo](https://youtu.be/PAn_i4KSHQg)
 
+
+## Import & Export (introduced in v1.0.0)
+
+To import and export snippets, open the command panel (cmd + shift + p) on Mac, and search for import snippets or export snippets.
+
+- When exporting it doesn't actually save a file to your machine, you will need to cmd + shift + s and choose a location to save.
+- When importing you need to make sure its a valid json array and that the json object is correct, run an export to see an example.
+
 ## Known Issues
 
 ## Release Notes
