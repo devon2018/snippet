@@ -17,6 +17,7 @@ import { TerminalSnippExplorer } from "./providers/TerminalSnippProvider";
 import { AddTerminalSnippetForm } from "./components/add_terminal_snipp";
 import SnippetExportProvider from "./providers/SnippExportProvider";
 import Snipp from "./interfaces/snipp";
+import { isDate } from "util";
 
 export function activate(context: ExtensionContext) {
   new SnippExplorer(context);
@@ -80,7 +81,7 @@ export function activate(context: ExtensionContext) {
         canSelectMany: false,
         canSelectFiles: true,
         canSelectFolders: false,
-        openLabel: "Choose Json File",
+        openLabel: "Choose file",
       };
 
       window.showOpenDialog(options).then((fileUri) => {
@@ -93,17 +94,28 @@ export function activate(context: ExtensionContext) {
               snippetsToImportRaw.forEach((snipp: Snipp) => {
                 let valid = true;
 
-                if (!Object.keys(snipp).includes("content")) {
+                if (!snipp.content) {
+                  valid = false;
+                  console.log('no content');
+                }
+
+                if (!snipp.created) {
+                  valid = false;
+                  console.log('no ccreated');
+                }
+                if (
+                  !Object.keys(snipp).includes("tags") &&
+                  typeof snipp.tags === "object"
+                ) {
+                  console.log('no tags');
+
                   valid = false;
                 }
-                if (!Object.keys(snipp).includes("created")) {
+
+                if (!snipp.contentType) {
                   valid = false;
-                }
-                if (!Object.keys(snipp).includes("tags")) {
-                  valid = false;
-                }
-                if (!Object.keys(snipp).includes("contentType")) {
-                  valid = false;
+                  console.log('no tags');
+
                 }
 
                 if (valid) {
@@ -119,7 +131,7 @@ export function activate(context: ExtensionContext) {
 
               context.globalState.update("snipps", updatedSnipps);
               commands.executeCommand("allSnipps.refreshEntry");
-              window.showInformationMessage(`Snippet Import success`);
+              window.showInformationMessage(`Snippets import success`);
             } catch (error) {
               window.showErrorMessage(
                 `Import failed, the json file you selected is invalid, please double check all fields.`

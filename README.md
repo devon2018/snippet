@@ -20,6 +20,10 @@ This plugin is still in beta, please create an issue or feature request if you n
 
 ## Release Notes
 
+### 1.0.0
+
+- Added ability to import &amp; export snippets
+
 ### 0.1.0
 
 - Updated demo videos for better resolution
