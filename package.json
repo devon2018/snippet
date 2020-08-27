@@ -37,6 +37,7 @@
     "onCommand:extension.searchSnipps",
     "onCommand:extension.insertSnipp",
     "onCommand:extension.importSnipps",
+    "onCommand:extension.exportSnipps",
     "onCommand:extension.refreshEntry",
     "onCommand:extension.importSnipps",
     "onCommand:extension.addEntry",
@@ -153,6 +154,15 @@
         "command": "extension.insertSnipp",
         "group": "snippet",
         "title": "Insert snippet"
+      },
+      {
+        "command": "extension.exportSnipps",
+        "group": "snippet",
+        "title": "Export Snippets",
+        "icon": {
+          "light": "resources/icons/import-snipps.svg",
+          "dark": "resources/icons/import-snipps.svg"
+        }
       },
       {
         "command": "extension.importSnipps",

@@ -1,4 +1,12 @@
-import { ExtensionContext, commands } from "vscode";
+import {
+  ExtensionContext,
+  commands,
+  workspace,
+  window,
+  OpenDialogOptions,
+  TextDocumentContentProvider,
+  Uri,
+} from "vscode";
 import { AddSnippForm } from "./components/add_snipp";
 import { SnippExplorer } from "./providers/snippProvider";
 import { CompletionProvider } from "./providers/CompletionProvider";
@@ -7,9 +15,10 @@ import { SearchTerminalSnippsForm } from "./components/search_terminal_snipps";
 
 import { TerminalSnippExplorer } from "./providers/TerminalSnippProvider";
 import { AddTerminalSnippetForm } from "./components/add_terminal_snipp";
+import SnippetExportProvider from "./providers/SnippExportProvider";
+import Snipp from "./interfaces/snipp";
 
 export function activate(context: ExtensionContext) {
-
   new SnippExplorer(context);
   new CompletionProvider(context);
   new TerminalSnippExplorer(context);
@@ -25,7 +34,7 @@ export function activate(context: ExtensionContext) {
       await AddTerminalSnippetForm(context);
     })
   );
-  
+
   context.subscriptions.push(
     commands.registerCommand("extension.searchSnipps", async () => {
       SearchSnippForm(context);
@@ -41,6 +50,84 @@ export function activate(context: ExtensionContext) {
   context.subscriptions.push(
     commands.registerCommand("extension.insertSnipp", async () => {
       SearchSnippForm(context);
+    })
+  );
+
+  workspace.registerTextDocumentContentProvider(
+    "snippet-export",
+    new SnippetExportProvider(context)
+  );
+
+  context.subscriptions.push(
+    commands.registerCommand("extension.exportSnipps", async () => {
+      workspace
+        .openTextDocument(Uri.parse("snippet-export:snippets.json"))
+        .then((doc) => {
+          window.showTextDocument(doc, {
+            preview: false,
+          });
+        });
+      // console.warn("works");
+
+      // return;
+      // // SearchSnippForm(context);
+    })
+  );
+
+  context.subscriptions.push(
+    commands.registerCommand("extension.importSnipps", async () => {
+      const options: OpenDialogOptions = {
+        canSelectMany: false,
+        canSelectFiles: true,
+        canSelectFolders: false,
+        openLabel: "Choose Json File",
+      };
+
+      window.showOpenDialog(options).then((fileUri) => {
+        if (fileUri && fileUri[0]) {
+          workspace.openTextDocument(fileUri[0].fsPath).then((doc) => {
+            try {
+              const validSnippets: Snipp[] = [];
+              const snippetsToImportRaw = JSON.parse(doc.getText());
+
+              snippetsToImportRaw.forEach((snipp: Snipp) => {
+                let valid = true;
+
+                if (!Object.keys(snipp).includes("content")) {
+                  valid = false;
+                }
+                if (!Object.keys(snipp).includes("created")) {
+                  valid = false;
+                }
+                if (!Object.keys(snipp).includes("tags")) {
+                  valid = false;
+                }
+                if (!Object.keys(snipp).includes("contentType")) {
+                  valid = false;
+                }
+
+                if (valid) {
+                  validSnippets.push(snipp);
+                } else {
+                  throw new Error("Snippet is invalid");
+                }
+              });
+
+              const existingSnipps = context.globalState.get("snipps", []);
+
+              const updatedSnipps = [...existingSnipps, ...validSnippets];
+
+              context.globalState.update("snipps", updatedSnipps);
+              commands.executeCommand("allSnipps.refreshEntry");
+              window.showInformationMessage(`Snippet Import success`);
+            } catch (error) {
+              window.showErrorMessage(
+                `Import failed, the json file you selected is invalid, please double check all fields.`
+              );
+            }
+          });
+        }
+      });
     })
   );
 }
