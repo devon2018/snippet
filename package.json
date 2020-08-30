@@ -3,7 +3,7 @@
   "displayName": "Snippet",
   "description": "Extension for creating code and managing user defined code snippets",
   "license": "SEE LICENSE IN LICENSE.md",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "devonray",
   "icon": "resources/logo.png",
   "repository": {
@@ -19,7 +19,7 @@
     "theme": "dark"
   },
   "engines": {
-    "vscode": "1.79.0"
+    "vscode": "^1.48.0"
   },
   "categories": [
     "Snippets",
