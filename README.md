@@ -8,8 +8,8 @@ This plugin is still in beta, please create an issue or feature request if you n
 - Create your own reusable code snippets;
 - Ability to search and group code snippets
 - Integrated Terminal Snippets
-- Import and Export snippets (Coming soon)
-- Share snipps (Coming soon)
+- Import and Export snippets
+- Share snippets (Coming soon)
 
 [Create Snippet demo](https://youtu.be/l5p6s9id2Jo)
 [Insert Snippet demo](https://youtu.be/cc115SUroJI)

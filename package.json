@@ -3,7 +3,7 @@
   "displayName": "Snippet",
   "description": "Extension for creating code and managing user defined code snippets",
   "license": "SEE LICENSE IN LICENSE.md",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "devonray",
   "icon": "resources/logo.png",
   "repository": {
@@ -33,6 +33,7 @@
     "Sharing"
   ],
   "activationEvents": [
+    "onStartupFinished",
     "onCommand:extension.createSnipp",
     "onCommand:extension.searchSnipps",
     "onCommand:extension.insertSnipp",
