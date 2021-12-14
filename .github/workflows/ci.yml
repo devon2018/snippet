@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Install Dependencies
-        run: yarn ci
+        run: yarn
       - name: Run Linter
         run: yarn lint
       - name: Build Code
