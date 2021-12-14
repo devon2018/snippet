@@ -31,10 +31,8 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Install Dependencies
         run: yarn
-      - name: Run Linter
-        run: yarn lint
-      - name: Build Code
-        run: yarn compile
+      - name: Run Lint and Compile
+        run: yarn pretest
       - name: Run Unit Tests
         run: yarn test
       - name: Generate Coverage Report
