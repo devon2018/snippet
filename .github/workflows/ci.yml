@@ -35,8 +35,6 @@ jobs:
         run: yarn pretest
       - name: Run Unit Tests
         run: yarn test
-      - name: Generate Coverage Report
-        run: yarn coverage
 
   # publish:
   #   name: Publish Github Action
