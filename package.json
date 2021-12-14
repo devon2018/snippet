@@ -256,14 +256,15 @@
       }
     ]
   },
-  "homepage": "https://snippet.devonray.net",
+  "homepage": "https://djinnapps.com/snippet",
   "scripts": {
     "vscode:prepublish": "yarn run compile",
     "compile": "tsc -p ./",
+    "coverage": "nyc report --reporter=lcov",
     "lint": "eslint src --ext ts",
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile && yarn run lint",
-    "test": "node ./out/test/runTest.js"
+    "test": "nyc mocha 'out/test/**/*.test.js'"
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
@@ -275,10 +276,10 @@
     "eslint": "^6.8.0",
     "glob": "^7.1.6",
     "mocha": "^7.0.1",
-    "typescript": "^3.7.5",
-    "vscode-test": "^1.3.0"
+    "typescript": "^3.7.5"
   },
   "dependencies": {
-    "axios": "^0.21.2"
+    "axios": "^0.21.2",
+    "nyc": "^15.1.0"
   }
 }

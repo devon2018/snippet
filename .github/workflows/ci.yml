@@ -1,0 +1,57 @@
+name: Build, Lint, Test and Deploy
+
+on:
+  push:
+    branches:
+      - "*"
+  release:
+    types:
+      - published
+
+jobs:
+  build-lint-test:
+    name: Node ${{ matrix.node }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: true
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        node:
+          - 12
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+      - name: Install Node ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install Dependencies
+        run: yarn
+      - name: Run Lint and Compile
+        run: yarn pretest
+      - name: Run Unit Tests
+        run: yarn test
+      - name: Generate Coverage Report
+        run: yarn coverage
+
+  publish:
+    name: Publish Github Action
+    needs:
+      - build-lint-test
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+      - name: Update Major Tag
+        run: |
+          MAJOR_VERSION=$(git describe --tags | grep -o "v[0-9]*")
+          git config --global user.name 'Devon Ray'
+          git config --global user.email 'devon@devonray.net'
+          git tag -afm "Updated tag $MAJOR_VERSION to $(git describe --tags)" $MAJOR_VERSION
+          git push --tags --force
