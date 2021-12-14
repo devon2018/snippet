@@ -8,7 +8,7 @@ import {
   Uri,
 } from "vscode";
 import { AddSnippForm } from "./components/add_snipp";
-import { SnippExplorer } from "./providers/snippProvider";
+import { SnippExplorer } from "./providers/SnippProvider";
 import { CompletionProvider } from "./providers/CompletionProvider";
 import { SearchSnippForm } from "./components/search_snipps";
 import { SearchTerminalSnippsForm } from "./components/search_terminal_snipps";
