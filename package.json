@@ -256,7 +256,7 @@
       }
     ]
   },
-  "homepage": "https://snippet.devonray.net",
+  "homepage": "https://djinnapps.com/snippet",
   "scripts": {
     "vscode:prepublish": "yarn run compile",
     "compile": "tsc -p ./",
