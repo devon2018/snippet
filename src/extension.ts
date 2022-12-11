@@ -68,10 +68,46 @@ export function activate(context: ExtensionContext) {
             preview: false,
           });
         });
-      // console.warn("works");
+    })
+  );
 
-      // return;
-      // // SearchSnippForm(context);
+  workspace.registerTextDocumentContentProvider(
+    "terminal-snippet-export",
+    new SnippetExportProvider(context, true)
+  );
+
+  context.subscriptions.push(
+    commands.registerCommand("extension.exportTerminalSnipps", async () => {
+
+      
+      workspace
+        .openTextDocument(
+          Uri.parse("terminal-snippet-export:terminal-snippets.json")
+        )
+        .then((doc) => {
+          window.showTextDocument(doc, {
+            preview: false,
+          });
+        });
+    })
+  );
+
+  context.subscriptions.push(
+    commands.registerCommand("extension.deleteAllSnippets", async () => {
+      window
+        .showInformationMessage(
+          "Are you sure you want to delete all your stored snippets, this cannot be undone!",
+          "Yes",
+          "No"
+        )
+        .then((answer) => {
+          if (answer === "Yes") {
+            // Run function
+            context.globalState.update("snipps", []);
+            commands.executeCommand("allSnipps.refreshEntry");
+            window.showInformationMessage(`Successfully removed all snippets`);
+          }
+        });
     })
   );
 
@@ -96,26 +132,25 @@ export function activate(context: ExtensionContext) {
 
                 if (!snipp.content) {
                   valid = false;
-                  console.log('no content');
+                  console.log("no content");
                 }
 
                 if (!snipp.created) {
                   valid = false;
-                  console.log('no ccreated');
+                  console.log("no ccreated");
                 }
                 if (
                   !Object.keys(snipp).includes("tags") &&
                   typeof snipp.tags === "object"
                 ) {
-                  console.log('no tags');
+                  console.log("no tags");
 
                   valid = false;
                 }
 
                 if (!snipp.contentType) {
                   valid = false;
-                  console.log('no tags');
-
+                  console.log("no tags");
                 }
 
                 if (valid) {

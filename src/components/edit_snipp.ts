@@ -16,7 +16,7 @@ export default function editSnippWebviewContent(snipp: Snipp) {
           padding: 10px;
           border: 1px solid;
           border-radius: 6px;
-          font-size: 19px;
+          font-size: 15px;
           font-weight: 300;
         }
         textarea {
@@ -27,7 +27,7 @@ export default function editSnippWebviewContent(snipp: Snipp) {
           padding: 10px;
           border: 1px solid;
           border-radius: 6px;
-          font-size: 19px;
+          font-size: 15px;
           font-weight: 300;
         }
 
@@ -85,13 +85,21 @@ export default function editSnippWebviewContent(snipp: Snipp) {
         }" required placeholder="Enter Snippet Name" name="name">
         <label>Content</label>
   
-        <textarea name="content" rows="40" required>${snipp.content}</textarea>
+        <textarea name="content" rows="20" required>${snipp.content}</textarea>
   
         <!-- ${snipp.tags.map(
           (tag, index) => `
           <input type="text" value="${tag}" placeholder="Enter Tag" name="tag[${index}]">
         `
         )} -->
+
+        <label>Tags (Separated by + symbol)</label>
+        <input type="text" value="${snipp.tags.reduce(
+          (curr, next) => `${curr} ${curr !== "" ? "+" : ""} ${next}`,
+          ""
+        )}" placeholder="Enter Tags separated by +" name="tags">
+
+        
         <p id="form-error"></p>
         <button type="submit">Save Snippet</button>
   

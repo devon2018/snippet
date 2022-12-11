@@ -9,7 +9,9 @@ export class TerminalSnippModel {
   ) {}
 
   public get roots(): Thenable<Snipp[]> {
-    const snipps = this.context?.globalState?.get("terminal_snipps", []);
+    const snipps = this.context?.globalState
+      ?.get("terminal_snipps", [])
+      .sort((a: Snipp, b: Snipp) => a.name.localeCompare(b.name));
     return Promise.resolve(snipps);
   }
 
@@ -19,14 +21,12 @@ export class TerminalSnippModel {
 }
 
 export class TerminalSnippProvider
-  implements
-    vscode.TreeDataProvider<Snipp>,
-    vscode.TextDocumentContentProvider {
-  private _onDidChangeTreeData: vscode.EventEmitter<
-    any
-  > = new vscode.EventEmitter<any>();
-  readonly onDidChangeTreeData: vscode.Event<any> = this._onDidChangeTreeData
-    .event;
+  implements vscode.TreeDataProvider<Snipp>, vscode.TextDocumentContentProvider
+{
+  private _onDidChangeTreeData: vscode.EventEmitter<any> =
+    new vscode.EventEmitter<any>();
+  readonly onDidChangeTreeData: vscode.Event<any> =
+    this._onDidChangeTreeData.event;
 
   constructor(
     private readonly model: TerminalSnippModel,

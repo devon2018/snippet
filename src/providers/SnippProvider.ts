@@ -30,7 +30,9 @@ export class SnippModel {
       ?.get("snipps", [])
       .filter((snipp: Snipp) => {
         return snipp.contentType === node.name;
-      });
+      })
+      .sort((a: Snipp, b: Snipp) => a.name.localeCompare(b.name));
+
     return Promise.resolve(snipps);
   }
 
@@ -44,12 +46,12 @@ export class GroupModel {}
 export class SnippProvider
   implements
     vscode.TreeDataProvider<Snipp | Group>,
-    vscode.TextDocumentContentProvider {
-  private _onDidChangeTreeData: vscode.EventEmitter<
-    any
-  > = new vscode.EventEmitter<any>();
-  readonly onDidChangeTreeData: vscode.Event<any> = this._onDidChangeTreeData
-    .event;
+    vscode.TextDocumentContentProvider
+{
+  private _onDidChangeTreeData: vscode.EventEmitter<any> =
+    new vscode.EventEmitter<any>();
+  readonly onDidChangeTreeData: vscode.Event<any> =
+    this._onDidChangeTreeData.event;
 
   constructor(
     private readonly model: SnippModel,
@@ -95,10 +97,19 @@ export class SnippProvider
       arguments: [element],
     };
 
+    let snippetInfo: string = `**${element.name}⇥ ${element.contentType}** _\n___`;
+
     return {
+      // @ts-ignore
       label: isSnip ? element.name : element.name.toUpperCase(),
       iconPath: icn,
       command: isSnip ? snippcomm : undefined,
+      tooltip: isSnip
+        ? new vscode.MarkdownString(
+            // @ts-ignore
+            `${snippetInfo}\n\n\`\`\`${element.contentType}\n${element.content}\n\`\`\``
+          )
+        : undefined,
       collapsibleState: !isSnip
         ? vscode.TreeItemCollapsibleState.Collapsed
         : undefined,
@@ -205,7 +216,7 @@ export class SnippExplorer {
         (message) => {
           switch (message.command) {
             case "save":
-              const { name, content } = message.snippetData;
+              const { name, content, tags } = message.snippetData;
 
               if (name) {
                 snipp.name = name;
@@ -213,6 +224,13 @@ export class SnippExplorer {
 
               if (content) {
                 snipp.content = content;
+              }
+
+              if (tags) {
+                snipp.tags = tags
+                  .split("+")
+                  .map((sty: string) => sty.trim())
+                  .filter((e: string) => e.length >= 2);
               }
 
               const updatedSnipps = existingSnipps.map(

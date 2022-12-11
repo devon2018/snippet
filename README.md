@@ -28,6 +28,14 @@ To import and export snippets, open the command panel (cmd + shift + p) on Mac, 
 
 ## Release Notes
 
+
+### 1.1.0
+- Added ability to delete all snippets using the command pallet
+- Terminal Snippets Export command
+- Added sorting to snippets to always sort alphabetically
+- Added ability to edit snippet tags & improved edit snippet form
+- Added snippet previewing in the main sidebar
+
 ### 1.0.0
 
 - Added ability to import &amp; export snippets

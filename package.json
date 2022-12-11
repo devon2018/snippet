@@ -3,7 +3,7 @@
   "displayName": "Snippet",
   "description": "Extension for creating code and managing user defined code snippets",
   "license": "SEE LICENSE IN LICENSE.md",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "publisher": "devonray",
   "icon": "resources/logo.png",
   "repository": {
@@ -39,6 +39,8 @@
     "onCommand:extension.insertSnipp",
     "onCommand:extension.importSnipps",
     "onCommand:extension.exportSnipps",
+    "onCommand:extension.exportTerminalSnipps",
+    "onCommand:extension.deleteAllSnippets",
     "onCommand:extension.refreshEntry",
     "onCommand:extension.importSnipps",
     "onCommand:extension.addEntry",
@@ -166,6 +168,24 @@
         }
       },
       {
+        "command": "extension.exportTerminalSnipps",
+        "group": "snippet",
+        "title": "Export Terminal Snippets",
+        "icon": {
+          "light": "resources/icons/import-snipps.svg",
+          "dark": "resources/icons/import-snipps.svg"
+        }
+      },
+      {
+        "command": "extension.deleteAllSnippets",
+        "group": "snippet",
+        "title": "Delete All Snippets",
+        "icon": {
+          "light": "resources/icons/import-snipps.svg",
+          "dark": "resources/icons/import-snipps.svg"
+        }
+      },
+      {
         "command": "extension.importSnipps",
         "group": "snippet",
         "title": "Import Snippets",
@@ -267,19 +287,18 @@
     "test": "nyc mocha 'out/test/**/*.test.js'"
   },
   "devDependencies": {
-    "@types/glob": "^7.1.1",
-    "@types/mocha": "^7.0.1",
-    "@types/node": "^12.11.7",
+    "@types/glob": "^8.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18.11.13",
     "@types/vscode": "^1.42.0",
-    "@typescript-eslint/eslint-plugin": "^2.18.0",
-    "@typescript-eslint/parser": "^2.18.0",
+    "@typescript-eslint/eslint-plugin": "^5.46.0",
+    "@typescript-eslint/parser": "^5.46.0",
     "eslint": "^6.8.0",
-    "glob": "^7.1.6",
-    "mocha": "^7.0.1",
-    "typescript": "^3.7.5"
+    "glob": "^8.0.3",
+    "mocha": "^10.2.0",
+    "typescript": "^4.9.4"
   },
   "dependencies": {
-    "axios": "^0.21.2",
     "nyc": "^15.1.0"
   }
 }
